@@ -274,7 +274,7 @@ Writes the output to a file called `merged_analogy_results.csv`
 Analyze this file using the R markdown `analogy_analysis.rmd`
 
 
-## Files:
+## Files
 
 
 **Config**
