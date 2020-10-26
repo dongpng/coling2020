@@ -1,0 +1,8 @@
+name: embeddings_spelling
+channels:
+  - defaults
+dependencies:
+  - python=3.7.6
+  - scikit-learn=0.22.1
+  - gensim=3.8.1
+  - pandas

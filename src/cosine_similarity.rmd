@@ -1,0 +1,61 @@
+---
+title: "Cosine similarity analysis"
+output:
+  pdf_document: default
+  html_document: default
+---
+
+
+```{r opts, echo = FALSE}
+knitr::opts_chunk$set(
+  fig.path = "images/", 
+  dev      = c("pdf", "png")
+  
+)
+library(ggplot2)
+
+```
+
+## Read in the data with computed cosine similarities
+
+```{r cosine}
+data <- read.csv("../data/similarity_analysis/cosine_similarities.csv")
+```
+
+## Look at some statistics (used in the paper)
+
+```{r}
+cosine_results <- aggregate(cosine_sim~input_file + embedding_model, data, mean)
+print(cosine_results, digits=2)
+```
+
+## Look at some statistics (used in the paper), seperated by dataset
+
+```{r}
+cosine_results_per_dataset <- aggregate(cosine_sim~input_file + embedding_model + dataset, data, mean)
+print(cosine_results_per_dataset, digits=2)
+```
+
+## A LM model
+
+```{r}
+summary(lm(cosine_sim~input_file + dataset + embedding_model + vocab_count_non_standard + vocab_count_standard, data=data))
+
+```
+
+## Random
+
+```{r}
+data <- read.csv("../data/similarity_analysis/cosine_similarities_random.csv")
+
+#calculate mean cosine similarity
+aggregate(cosine_sim~input_file + embedding_model, data, mean)
+```
+
+## BATS
+```{r}
+data <- read.csv("../data/similarity_analysis/cosine_similarities_bats.csv")
+
+#calculate mean cosine similarity
+aggregate(cosine_sim~input_file + embedding_model, data, mean)
+```

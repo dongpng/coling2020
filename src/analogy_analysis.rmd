@@ -1,0 +1,93 @@
+---
+title: "Analogy analysis (COLING 2020)"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+library('reshape2')
+library(readr)
+library(dplyr)
+library(tidyr)
+library(xtable)
+library('ggplot2')
+```
+
+## Read in the data
+
+```{r data}
+data <- read.csv("../data/analogy_results/merged_analogy_results.csv", stringsAsFactors = FALSE)
+```
+
+
+## Accuracy analysis
+
+```{r accuracy}
+accuracy_results <- aggregate(accuracy~filename+dataset+embedding_type+run, data, mean)
+accuracy_results <- accuracy_results[order(accuracy_results$filename, 
+                                           accuracy_results$dataset, 
+                                           accuracy_results$embedding_type, 
+                                           accuracy_results$run),] 
+
+# write to file
+print(xtable(accuracy_results, type = "latex"), file = "accuracy_results.tex")
+
+```
+
+## Print the plots
+
+```{r plots}
+# common_misspellings_analogies, g_dropping_analogies
+# us_uk_analogies, swapped_analogies,
+# vowel_omission_analogies, keyboard_substitution_analogies
+# lengthening_analogies
+
+# Create a figure for this analogy type
+data_variation_type <- data %>% filter(filename == "g_dropping_analogies")
+
+# Replace the names of the runs
+data_variation_type <- data_variation_type %>% mutate(
+  run = replace(run, run == "baseline", "ONLY-B"))
+
+data_variation_type <- data_variation_type %>% mutate(
+  run = replace(run, run == "standard", "3COSADD"))
+
+# Create two new columns by concatenating individual columns, but keep the individual columns
+data_variation_type <- data_variation_type %>% unite("runid", 
+                                                     c("run", "embedding_type", "dataset"), remove = FALSE)
+
+data_variation_type <- data_variation_type %>% unite("legendid", 
+                                                     c("embedding_type", "dataset"), remove = FALSE)
+
+# Now create better labels for the legends
+data_variation_type <- data_variation_type %>% mutate(
+  legendid = replace(legendid, legendid == "word2vec_twitter", "Twitter; skipgram"),
+  legendid = replace(legendid, legendid == "fasttext_twitter", "Twitter; fastText"),
+  legendid = replace(legendid, legendid == "word2vec_reddit", "Reddit; skipgram"),
+  legendid = replace(legendid, legendid == "fasttext_reddit", "Reddit; fastText")
+)
+
+data_variation_type$legendid <- factor(data_variation_type$legendid, levels=c("Reddit; fastText", "Twitter; fastText", "Reddit; skipgram", "Twitter; skipgram")) 
+
+ggplot() + 
+  geom_line(data=data_variation_type, 
+            aes(x=num_dim, y=rr, group=runid, colour=legendid, linetype=run),
+            size=2.0) +
+  theme_bw() +
+  theme(text = element_text(size=25)) + 
+  scale_color_manual("dataset and method", values=c("#1f78b4",
+                                                    "#a6cee3", 
+                                                    "#33a02c", 
+                                                    "#b2df8a"
+  )) + 
+  scale_linetype_manual("runid", values=c("ONLY-B"=2, "3COSADD"=1)) +
+  guides(linetype=guide_legend(keywidth = 3, keyheight = 1),
+          colour=guide_legend(keywidth = 3, keyheight = 1)) + ylim(0, 1) + 
+  xlab("#dimensions") + ylab("MRR") + 
+  theme(legend.position = "none")
+
+
+ggsave("analogy_figure.pdf", width = 4, height = 4)
+
+```

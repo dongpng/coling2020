@@ -1,0 +1,7 @@
+#!/bin/bash
+./fasttext skipgram -input data/twitter/london_tweets_processed_may2018_april2019.txt -output embeddings/twitter/fasttext_london_tweets_processed_may2018_april2019_embeddings_20_50_5 -minCount 20 -dim 50 -ws 5
+./fasttext skipgram -input data/twitter/london_tweets_processed_may2018_april2019.txt -output embeddings/twitter/fasttext_london_tweets_processed_may2018_april2019_embeddings_20_100_5 -minCount 20 -dim 100 -ws 5
+./fasttext skipgram -input data/twitter/london_tweets_processed_may2018_april2019.txt -output embeddings/twitter/fasttext_london_tweets_processed_may2018_april2019_embeddings_20_150_5 -minCount 20 -dim 150 -ws 5
+./fasttext skipgram -input data/twitter/london_tweets_processed_may2018_april2019.txt -output embeddings/twitter/fasttext_london_tweets_processed_may2018_april2019_embeddings_20_200_5 -minCount 20 -dim 200 -ws 5
+./fasttext skipgram -input data/twitter/london_tweets_processed_may2018_april2019.txt -output embeddings/twitter/fasttext_london_tweets_processed_may2018_april2019_embeddings_20_250_5 -minCount 20 -dim 250 -ws 5
+./fasttext skipgram -input data/twitter/london_tweets_processed_may2018_april2019.txt -output embeddings/twitter/fasttext_london_tweets_processed_may2018_april2019_embeddings_20_300_5 -minCount 20 -dim 300 -ws 5

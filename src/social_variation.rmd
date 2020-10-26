@@ -1,0 +1,63 @@
+---
+title: "Extra linguistic variation (COLING 2020)"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+library('reshape2')
+library(readr)
+library(dplyr)
+library(tidyr)
+
+```
+
+## Reddit
+
+```{r reddit_data}
+# Prints out the proportions for each subreddit (to generate Table 3)
+data <- read.csv("../data/social_variation_analysis/reddit/lengthening_pairs_subreddits_distr.txt", sep="\t", header=FALSE)
+data$prop_non_conv = data$V3/(data$V2 + data$V3) * 100
+data = data[order(data$prop_non_conv),]
+data %>%  mutate_if(is.numeric, round, digits = 2)
+```
+
+
+## Read in the data 
+
+```{r data}
+data <- read.csv("../data/social_variation_analysis/twitter/lengthening_pairs_m3inference_aggregated.txt", header=TRUE)
+```
+
+## Gender
+
+```{r}
+data %>%
+  group_by(is_standard) %>%
+  summarise(mean = mean(is_male))
+```
+
+```{r}
+data %>%
+  group_by(is_standard) %>%
+  summarise(mean = mean(is_male_binary))
+```
+
+## Organization
+
+```{r}
+data %>%
+  group_by(is_standard) %>%
+  summarise(mean = mean(is_org))
+```
+
+## Age (used in paper)
+
+```{r}
+data %>%
+      count(is_standard, age_cat) %>%
+  group_by(is_standard) %>%          # now required with changes to dplyr::count()
+  mutate(prop = prop.table(n))
+```
+
