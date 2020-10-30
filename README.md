@@ -45,17 +45,15 @@ The full environment can be found in `environment.yml`
 
 More info about the individual files is provided at the bottom of this README.
 
+**data**: only the spelling variants and analogies are provided in this Github repositiory. For all other files, see the Zenodo repository: https://doi.org/10.5281/zenodo.4134030
+
 **src/config.ini**: add the path to the main directory here. So, the path referring to the directory with the following structure:
 
-**data**: only the spelling variants list is provided in this Github repositiory. For all other files, see the Zenodo repo (LINK TO BE ADDED).
-
-.
-├──data
-├──src
-├──README.md
-├──environment.yml
-├──environment_from_history.yml
-
+   |-- data
+   |-- src
+   |-- README.md
+   |-- environment.yml
+   |-- environment_from_history.yml
 
 
 ## Data
