@@ -49,11 +49,12 @@ More info about the individual files is provided at the bottom of this README.
 
 **src/config.ini**: add the path to the main directory here. So, the path referring to the directory with the following structure:
 
-   |-- data
-   |-- src
-   |-- README.md
-   |-- environment.yml
-   |-- environment_from_history.yml
+    ├── .
+    ├── data
+    ├── src
+    ├── README.md
+    ├── environment.yml
+    ├── environment_from_history.yml
 
 
 ## Data
